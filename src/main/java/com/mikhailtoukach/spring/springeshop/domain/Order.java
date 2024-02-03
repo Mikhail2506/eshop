@@ -1,13 +1,11 @@
 package com.mikhailtoukach.spring.springeshop.domain;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
@@ -35,7 +33,7 @@ public class Order {
     private LocalDateTime updated;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     private BigDecimal sum;
@@ -44,6 +42,7 @@ public class Order {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<OrderDetails> details;
+
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 

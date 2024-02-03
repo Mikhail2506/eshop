@@ -24,7 +24,7 @@ public class OrderDetails {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "orderid")
+    @JoinColumn(name = "order_id")
     private Order order;
 
     @ManyToOne

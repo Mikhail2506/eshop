@@ -117,9 +117,7 @@
 -- add constraint users_fk_buckets
 -- foreign key (bucket_id) references buckets;
 
-
-
-
+--
 -- create sequence bucket_seq start with 1 increment by 1;
 -- create sequence category_seq start with 1 increment by 1;
 -- create sequence order_details_seq start with 1 increment by 1;
@@ -201,7 +199,7 @@
 --     foreign key (user_id) references users;
 --
 -- alter table if exists buckets_products
---     add constraint  buckets_products_fk_products
+--     add constraint buckets_products_fk_products
 --     foreign key (product_id) references products;
 --
 -- alter table if exists buckets_products

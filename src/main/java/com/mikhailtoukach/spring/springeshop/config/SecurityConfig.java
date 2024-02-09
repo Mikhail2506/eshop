@@ -19,11 +19,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import static org.apache.catalina.webresources.TomcatURLStreamHandlerFactory.disable;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity
+@EnableGlobalMethodSecurity
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 //        extends WebSecurityConfigurerAdapter {
@@ -55,22 +56,17 @@ public class SecurityConfig {
 
    @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-       http
-               .authorizeHttpRequests()
-                .requestMatchers("/user/new").hasAuthority(Role.ADMIN.name())
+       http.authorizeHttpRequests(request->request
+               .requestMatchers("/users/new").hasAuthority(Role.ADMIN.name())
                 .anyRequest().permitAll()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/auth")
-                .loginProcessingUrl("/auth")
-                .permitAll()
-                .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/").deleteCookies("JSESSION10")
-                .invalidateHttpSession(true)
-                .and()
-                .csrf().disable();
+                      .requestMatchers("/login").permitAll()
+                      .requestMatchers("/auth").permitAll());
+//               .logout()
+//               .logoutSuccessUrl("/logout")
+//                .logoutSuccessUrl("/").deleteCookies("JSESSIONID")
+//                .invalidateHttpSession(true)
+//               .disable();
+
         return http.build();
     }
 

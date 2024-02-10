@@ -63,26 +63,4 @@ public class SecurityConfig {
         return http.build();
     }
 
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeHttpRequests()
-//                .antMatchers("/user/new").hasAuthority(Role.ADMIN.name())
-//                .anyRequest().permitAll()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .loginProcessingUrl("/auth")
-//                .loginProcessingUrl("/auth")
-//                .permitAll()
-//                .and()
-//                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                .logoutSuccessUrl("/").deleteCookies("JSESSIONID")
-//                .invalidateHttpSession(true)
-//                .and()
-//                .csrf().disable();
-//        return http.build();
-//    }
-
-
 }

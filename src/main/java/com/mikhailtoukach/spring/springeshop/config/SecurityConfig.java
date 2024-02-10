@@ -52,27 +52,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .authorizeRequests()
-                .requestMatchers("/users/new").hasAuthority(Role.ADMIN.name())
-                .anyRequest().permitAll()
-                .and()
-                .formLogin((form)->form.loginPage("/login").permitAll()
-                        .loginProcessingUrl("/auth")
-                        .permitAll())
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/users/new", "/login").hasAuthority(Role.ADMIN.name())
+                                .anyRequest().permitAll())
+                                .formLogin((form)->form.loginPage("/login").permitAll()
+                                .loginProcessingUrl("/auth")
+                                .permitAll())
                 .logout((logout) -> logout.logoutUrl("/logout").logoutSuccessUrl("/").permitAll()
                         .deleteCookies("JSESSIONID"));
-
-
-
-//        http
-//                .authorizeHttpRequests((requests) -> requests
-//                        .requestMatchers("/users/new").hasAuthority(Role.ADMIN.name())
-//                                .anyRequest().permitAll())
-//                                .formLogin((form)->form.loginPage("/login").permitAll()
-//                                .loginProcessingUrl("/auth")
-//                                .permitAll())
-//                .logout((logout) -> logout.logoutUrl("/logout").logoutSuccessUrl("/").permitAll()
-//                        .deleteCookies("JSESSIONID"));
         return http.build();
     }
 

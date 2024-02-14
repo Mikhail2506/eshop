@@ -1,27 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add user</title>
+    <title> Add user</title>
 </head>
 <body>
 <form th:action="@{/user/new}" th:object="${user}" method="post">
     <table border="1">
         <tr>
             <td>Name</td>
-            <td><input type="text" th:field="*{username}"></td>
+            <td><input type="text" th:field="*{userName}"/></td>
         </tr>
         <tr>
             <td>Password</td>
-            <td><input type="password" th:field="*{password}"></td>
+            <td><input type="password" th:field="*{password}"/></td>
         </tr>
         <tr>
             <td>Matching password</td>
-            <td><input type="password" th:field="*{matchingPassword}"></td>
+            <td><input type="password" th:field="*{matchingPassword}"/></td>
         </tr>
         <tr>
             <td>Email</td>
-            <td><input type="email" th:field="*{email}"></td>
+            <td><input type="email" th:field="*{email}"/></td>
         </tr>
     </table>
     <button type="submit">Save</button>

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
-@ComponentScan(value="com.mikhailtoukach.spring.springeshop")
+//@ComponentScan(value="com.mikhailtoukach.spring.springeshop")
 public class SpringEshopApplication {
 
     public static void main(String[] args) {

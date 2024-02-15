@@ -12,13 +12,13 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static com.mikhailtoukach.spring.springeshop.domain.Role.ADMIN;
-
 
 @Configuration
 @EnableWebSecurity
@@ -50,10 +50,16 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-//        http
+        http.csrf(CsrfConfigurer::disable)
+                .authorizeHttpRequests(auth->auth
+                        .anyRequest().authenticated())
+                .formLogin(login->login.loginPage("/login")
+                        .defaultSuccessUrl("/users")
+                        .permitAll());
+
 //                .authorizeHttpRequests((requests) -> requests
 //                        .requestMatchers("/users/new", "/login").hasAuthority(Role.ADMIN.name()))
 //                                //.anyRequest().permitAll())
@@ -62,31 +68,31 @@ public class SecurityConfig {
 //                                .permitAll())
 //                .logout((logout) -> logout.logoutUrl("/logout").logoutSuccessUrl("/").permitAll()
 //                        .deleteCookies("JSESSIONID"));
-//        return http.build();
-//    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        //return
-        http
-                .authorizeRequests()
-                .requestMatchers("/users/new", "/login").hasAuthority(Role.ADMIN.name())
-                .anyRequest().permitAll()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/auth")
-                .permitAll()
-                .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/")
-                .deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true)
-                .and()
-                .csrf()
-                .disable();
         return http.build();
-
     }
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//
+//        //return
+//        http
+//                .authorizeRequests()
+//                .requestMatchers("/users/new", "/login").hasAuthority(Role.ADMIN.name())
+//                .anyRequest().permitAll()
+//                .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .loginProcessingUrl("/auth")
+//                .permitAll()
+//                .and()
+//                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//                .logoutSuccessUrl("/")
+//                .deleteCookies("JSESSIONID")
+//                .invalidateHttpSession(true)
+//                .and()
+//                .csrf()
+//                .disable();
+//        return http.build();
+//
+//    }
 }

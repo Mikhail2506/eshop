@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findFirstByName(username);
 
         if (user == null) {
-            throw new UsernameNotFoundException("user not found with name: " + username);
+            throw new UsernameNotFoundException("Can't found user with name: " + username);
         }
         List<GrantedAuthority> roles = new ArrayList<>();
         roles.add(new SimpleGrantedAuthority(user.getRole().name()));

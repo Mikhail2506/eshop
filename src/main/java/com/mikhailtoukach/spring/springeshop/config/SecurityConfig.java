@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -56,9 +57,14 @@ public class SecurityConfig {
         http.csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(auth->auth
                         .anyRequest().authenticated())
+//                .httpBasic(Customizer.withDefaults());
                 .formLogin(login->login.loginPage("/login")
-                        .defaultSuccessUrl("/users")
-                        .permitAll());
+                        .defaultSuccessUrl("/user")
+                        .permitAll())
+                .logout(logout->logout
+                        .logoutUrl("/logout")
+                                        .logoutSuccessUrl("/login")
+                                .deleteCookies("JSESSIONID"));
 
 //                .authorizeHttpRequests((requests) -> requests
 //                        .requestMatchers("/users/new", "/login").hasAuthority(Role.ADMIN.name()))
@@ -71,28 +77,5 @@ public class SecurityConfig {
         return http.build();
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//
-//        //return
-//        http
-//                .authorizeRequests()
-//                .requestMatchers("/users/new", "/login").hasAuthority(Role.ADMIN.name())
-//                .anyRequest().permitAll()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .loginProcessingUrl("/auth")
-//                .permitAll()
-//                .and()
-//                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                .logoutSuccessUrl("/")
-//                .deleteCookies("JSESSIONID")
-//                .invalidateHttpSession(true)
-//                .and()
-//                .csrf()
-//                .disable();
-//        return http.build();
-//
-//    }
+
 }

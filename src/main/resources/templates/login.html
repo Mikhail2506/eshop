@@ -5,6 +5,7 @@
     <title>Login Page</title>
 </head>
 <body>
+<div th:insert="~{fragment::header}"></div>
 <div style="color:red" th:if="${param.error}">
     Invalid username or password!!!
 </div>

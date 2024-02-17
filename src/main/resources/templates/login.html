@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title>Login Page</title>
 </head>
 <body>
-<div th:insert="~{fragment::header}"></div>
-<div style="color:red" th:if="${param.error}">
-    Invalid username or password!!!
-</div>
+<div th:insert="~{fragments/menu::#nav-menu}"></div>
+
+<p th:if="${LoginError}" class="error">Wrong username or password
+</p>
 <form th:action="@{/auth}" method="post">
     <table border="1">
         <tr>

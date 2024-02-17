@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,13 +16,11 @@ import org.springframework.security.config.annotation.web.configurers.CsrfConfig
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import static com.mikhailtoukach.spring.springeshop.domain.Role.ADMIN;
 
 @Configuration
 @EnableWebSecurity
-//@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
+@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 
     private UserService userService;
@@ -55,27 +52,30 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf(CsrfConfigurer::disable)
-                .authorizeHttpRequests(auth->auth
-                        .anyRequest().authenticated())
-//                .httpBasic(Customizer.withDefaults());
-                .formLogin(login->login.loginPage("/login")
-                        .defaultSuccessUrl("/user")
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/user/new")
+                        //.requestMatchers(antMatcher("/users/new"))
+                        .hasAnyAuthority(Role.ADMIN.name())
+                        //.hasAuthority(Role.ADMIN.name())
+//                        .requestMatchers("/", "/login", "v3/api-docs/", "/swagger-ui/")
+//                        .permitAll()
+//                        .requestMatchers("/admin/**").hasRole(ADMIN.getAuthority())
+//                        //.requestMatchers("/user/new").hasRole(ADMIN.getAuthority())
+//                        .requestMatchers(antMatcher("/user/{//d}/delete")).hasAnyAuthority(ADMIN.getAuthority(), MANAGER.getAuthority())
+                        .anyRequest()
                         .permitAll())
-                .logout(logout->logout
+                //.authenticated())
+//                .httpBasic(Customizer.withDefaults());
+                .formLogin(login -> login.loginPage("/login")
+                        .failureUrl("/login-error")
+                        .loginProcessingUrl("/auth")
+                        //.defaultSuccessUrl("/user")
+                        .permitAll())
+                .logout(logout -> logout
                         .logoutUrl("/logout")
-                                        .logoutSuccessUrl("/login")
-                                .deleteCookies("JSESSIONID"));
+                        .logoutSuccessUrl("/")
+                        .deleteCookies("JSESSIONID"));
 
-//                .authorizeHttpRequests((requests) -> requests
-//                        .requestMatchers("/users/new", "/login").hasAuthority(Role.ADMIN.name()))
-//                                //.anyRequest().permitAll())
-//                                .formLogin((form)->form.loginPage("/login")
-//                                .loginProcessingUrl("/auth")
-//                                .permitAll())
-//                .logout((logout) -> logout.logoutUrl("/logout").logoutSuccessUrl("/").permitAll()
-//                        .deleteCookies("JSESSIONID"));
         return http.build();
     }
-
-
 }

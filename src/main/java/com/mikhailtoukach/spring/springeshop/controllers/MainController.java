@@ -16,10 +16,11 @@ public class MainController {
     public String login() {
         return "login";
     }
-@RequestMapping("/login-error")
-    public String loginError (Model model){
-        model.addAttribute("LoginError", true);
+
+    @RequestMapping("/login-error")
+    public String loginError(Model model) {
+        model.addAttribute("loginError", true);
         return "login";
-}
+    }
 
 }

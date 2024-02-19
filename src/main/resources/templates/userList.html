@@ -11,12 +11,12 @@
         <td>Name</td>
         <td>Email</td>
     </tr>
-    <tr th:each="user:${users}">
+    <tr th:each="user : ${users}">
         <td th:text="${user.userName}"> Testname"</td>
         <td th:text="${user.email}"> Testmail"</td>
     </tr>
 </table>
-<a th:href="@{/user/new}">Add new User</a>
+<a th:href="@{/users/new}">Add new User</a>
 
 </body>
 </html>

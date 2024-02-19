@@ -6,13 +6,13 @@
 <body>
 <div th:insert="~{fragments/menu::#nav-menu}"></div>
 
-<p th:if="${LoginError}" class="error">Wrong username or password
-</p>
+<!--<p th:if="${loginError}" class="error">Wrong username or password-->
+<!--</p>-->
 <form th:action="@{/auth}" method="post">
     <table border="1">
         <tr>
             <td>Name</td>
-            <td><input type="text" name="userName"/></td>
+            <td><input type="text" name="username"/></td>
         </tr>
         <tr>
             <td>Password</td>

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -22,7 +22,7 @@ public class UserController {
 
     @GetMapping
     public String userList(Model model){
-        model.addAttribute("user", userService.getAll());
+        model.addAttribute("users", userService.getAll());
         return "userList";
     }
 

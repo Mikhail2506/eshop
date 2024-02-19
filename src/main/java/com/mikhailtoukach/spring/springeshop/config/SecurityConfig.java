@@ -17,6 +17,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static com.mikhailtoukach.spring.springeshop.domain.Role.ADMIN;
+import static com.mikhailtoukach.spring.springeshop.domain.Role.MANAGER;
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+
 
 @Configuration
 @EnableWebSecurity
@@ -53,23 +57,21 @@ public class SecurityConfig {
 
         http.csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user/new")
-                        //.requestMatchers(antMatcher("/users/new"))
-                        .hasAnyAuthority(Role.ADMIN.name())
-                        //.hasAuthority(Role.ADMIN.name())
+                        .requestMatchers("/users/new")
+                        .hasAuthority(Role.ADMIN.getAuthority())
 //                        .requestMatchers("/", "/login", "v3/api-docs/", "/swagger-ui/")
 //                        .permitAll()
-//                        .requestMatchers("/admin/**").hasRole(ADMIN.getAuthority())
-//                        //.requestMatchers("/user/new").hasRole(ADMIN.getAuthority())
+////                        .requestMatchers("/admin/**").hasRole(ADMIN.getAuthority())
+//                        //.requestMatchers("/users/new").hasAuthority(Role.ADMIN.getAuthority())
 //                        .requestMatchers(antMatcher("/user/{//d}/delete")).hasAnyAuthority(ADMIN.getAuthority(), MANAGER.getAuthority())
-                        .anyRequest()
-                        .permitAll())
+                .anyRequest()
+                .permitAll())
                 //.authenticated())
 //                .httpBasic(Customizer.withDefaults());
                 .formLogin(login -> login.loginPage("/login")
                         .failureUrl("/login-error")
                         .loginProcessingUrl("/auth")
-                        //.defaultSuccessUrl("/user")
+                        .defaultSuccessUrl("/users")
                         .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")

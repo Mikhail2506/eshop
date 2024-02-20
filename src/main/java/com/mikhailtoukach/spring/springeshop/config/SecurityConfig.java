@@ -58,25 +58,29 @@ public class SecurityConfig {
         http.csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/users/new")
-                        .hasAuthority(Role.ADMIN.getAuthority())
-//                        .requestMatchers("/", "/login", "v3/api-docs/", "/swagger-ui/")
-//                        .permitAll()
+                        //.permitAll()
+                        .hasRole(ADMIN.getAuthority())
+                        //.hasAuthority(Role.ADMIN.getAuthority())
+
+                        .requestMatchers("/", "/login", "v3/api-docs/", "/swagger-ui/")
+                        .permitAll()
+
 ////                        .requestMatchers("/admin/**").hasRole(ADMIN.getAuthority())
 //                        //.requestMatchers("/users/new").hasAuthority(Role.ADMIN.getAuthority())
 //                        .requestMatchers(antMatcher("/user/{//d}/delete")).hasAnyAuthority(ADMIN.getAuthority(), MANAGER.getAuthority())
-                .anyRequest()
-                .permitAll())
+                        .anyRequest()
+                        .permitAll())
                 //.authenticated())
 //                .httpBasic(Customizer.withDefaults());
                 .formLogin(login -> login.loginPage("/login")
-                        .failureUrl("/login-error")
                         .loginProcessingUrl("/auth")
                         .defaultSuccessUrl("/users")
-                        .permitAll())
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
-                        .deleteCookies("JSESSIONID"));
+                        .failureUrl("/login-error")
+                        .permitAll());
+//                .logout(logout -> logout
+//                        .logoutUrl("/logout")
+//                        .logoutSuccessUrl("/")
+//                        .deleteCookies("JSESSIONID"));
 
         return http.build();
     }

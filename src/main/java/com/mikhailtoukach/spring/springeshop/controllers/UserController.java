@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/users")
 public class UserController {
 
+
     private final UserService userService;
 
     @Autowired
@@ -21,7 +22,7 @@ public class UserController {
     }
 
     @GetMapping
-    public String userList(Model model){
+    public String userList(Model model) {
         model.addAttribute("users", userService.getAll());
         return "userList";
     }
@@ -35,8 +36,7 @@ public class UserController {
     @PostMapping("/new")
     public String saveUser(UserDTO userDTO, Model model) {
         if (userService.save(userDTO)) {
-           // return "redirect:/users";
-            return "redirect:/";
+            return "redirect:/users";
         } else {
             model.addAttribute("user", userDTO);
             return "user";

@@ -57,15 +57,16 @@ public class SecurityConfig {
 
         http.csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/new")
-                        //.permitAll()
-                        .hasRole(ADMIN.getAuthority())
-                        //.hasAuthority(Role.ADMIN.getAuthority())
+//                        .requestMatchers("/users").hasAnyAuthority(Role.ADMIN.name(), Role.MANAGER.name())
+//                        .requestMatchers("/users/new")
+//                        //.permitAll()
+//                        //.hasRole(ADMIN.getAuthority())
+//                        .hasAuthority(Role.ADMIN.name())
 
-                        .requestMatchers("/", "/login", "v3/api-docs/", "/swagger-ui/")
-                        .permitAll()
+//                        .requestMatchers("/", "/login", "v3/api-docs/", "/swagger-ui/")
+//                        .permitAll()
 
-////                        .requestMatchers("/admin/**").hasRole(ADMIN.getAuthority())
+//                        .requestMatchers("/admin/**").hasRole(ADMIN.getAuthority())
 //                        //.requestMatchers("/users/new").hasAuthority(Role.ADMIN.getAuthority())
 //                        .requestMatchers(antMatcher("/user/{//d}/delete")).hasAnyAuthority(ADMIN.getAuthority(), MANAGER.getAuthority())
                         .anyRequest()
@@ -74,14 +75,14 @@ public class SecurityConfig {
 //                .httpBasic(Customizer.withDefaults());
                 .formLogin(login -> login.loginPage("/login")
                         .loginProcessingUrl("/auth")
-                        .defaultSuccessUrl("/users")
-                        .failureUrl("/login-error")
-                        .permitAll());
+                        //.defaultSuccessUrl("/users")
+                        //.failureUrl("/login-error")
+                        .permitAll())
 //                .logout(logout -> logout
 //                        .logoutUrl("/logout")
 //                        .logoutSuccessUrl("/")
-//                        .deleteCookies("JSESSIONID"));
-
+//                        .deleteCookies("JSESSIONID"))
+;
         return http.build();
     }
 }

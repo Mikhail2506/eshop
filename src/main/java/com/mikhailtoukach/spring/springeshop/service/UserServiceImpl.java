@@ -1,6 +1,5 @@
 package com.mikhailtoukach.spring.springeshop.service;
 
-
 import com.mikhailtoukach.spring.springeshop.dao.UserRepository;
 import com.mikhailtoukach.spring.springeshop.domain.Role;
 import com.mikhailtoukach.spring.springeshop.domain.User;
@@ -13,14 +12,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -37,7 +33,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Password is not equals");
         }
         User user = User.builder()
-                .name(userDTO.getUserName())
+                .name(userDTO.getUsername())
                 .password(passwordEncoder.encode(userDTO.getPassword()))
                 .email(userDTO.getEmail())
                 .role(Role.CLIENT)
@@ -54,8 +50,10 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         User user = userRepository.findFirstByName(username);
 
         if (user == null) {
@@ -65,13 +63,23 @@ public class UserServiceImpl implements UserService {
         roles.add(new SimpleGrantedAuthority(user.getRole().name()));
         return new org.springframework.security.core.userdetails.User(
                 user.getName(),
-                        user.getPassword(), roles);
+                user.getPassword(),
+                roles);
+
+//        return userRepository.findFirstByName(username)
+//                .map(user -> new org.springframework.security.core.userdetails.User(
+//                        user.getName(),
+//                        user.getPassword(),
+//                        Collections.singleton(user.getRole())
+//                ))
+//        .orElseThrow(()-> new UsernameNotFoundException("Failed to retrive use:" + username));
     }
 
-    private UserDTO toDto(User user){
+    private UserDTO toDto(User user) {
         return UserDTO.builder()
-                .userName(user.getName())
+                .username(user.getName())
                 .email(user.getEmail())
                 .build();
     }
+
 }

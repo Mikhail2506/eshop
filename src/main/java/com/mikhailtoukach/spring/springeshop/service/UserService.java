@@ -1,6 +1,5 @@
 package com.mikhailtoukach.spring.springeshop.service;
 
-
 import com.mikhailtoukach.spring.springeshop.dto.UserDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 

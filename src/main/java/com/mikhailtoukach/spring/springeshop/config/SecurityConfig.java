@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
@@ -17,14 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static com.mikhailtoukach.spring.springeshop.domain.Role.ADMIN;
-import static com.mikhailtoukach.spring.springeshop.domain.Role.MANAGER;
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
-
-
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 
     private UserService userService;
@@ -57,32 +51,38 @@ public class SecurityConfig {
 
         http.csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/users").hasAnyAuthority(Role.ADMIN.name(), Role.MANAGER.name())
-//                        .requestMatchers("/users/new")
-//                        //.permitAll()
-//                        //.hasRole(ADMIN.getAuthority())
-//                        .hasAuthority(Role.ADMIN.name())
-
-//                        .requestMatchers("/", "/login", "v3/api-docs/", "/swagger-ui/")
-//                        .permitAll()
-
-//                        .requestMatchers("/admin/**").hasRole(ADMIN.getAuthority())
-//                        //.requestMatchers("/users/new").hasAuthority(Role.ADMIN.getAuthority())
-//                        .requestMatchers(antMatcher("/user/{//d}/delete")).hasAnyAuthority(ADMIN.getAuthority(), MANAGER.getAuthority())
+//
+////                        .requestMatchers("/login").permitAll()
+////                        .requestMatchers("/index").permitAll()
+////                        .requestMatchers("/userList").hasAnyRole("ADMIN", "MANAGER")
+////                        .requestMatchers("/users/new")
+////                        .permitAll()
+//
+                        //                   .requestMatchers("/users/new").hasAuthority(ADMIN.name())
+////
+////                        .requestMatchers("/", "/login", "v3/api-docs/", "/swagger-ui/")
+////                        .permitAll()
+//
+////                        .requestMatchers("/admin/**").hasRole(ADMIN.getAuthority())
+                        //                   .requestMatchers("/users/new").hasAuthority(Role.ADMIN.getAuthority())
+                        //               .requestMatchers(antMatcher("/user/{//d}/delete")).hasAnyAuthority(ADMIN.getAuthority(), MANAGER.getAuthority())
+//
                         .anyRequest()
                         .permitAll())
-                //.authenticated())
-//                .httpBasic(Customizer.withDefaults());
-                .formLogin(login -> login.loginPage("/login")
-                        .loginProcessingUrl("/auth")
-                        //.defaultSuccessUrl("/users")
-                        //.failureUrl("/login-error")
-                        .permitAll())
+                       // .authenticated())
+
+//                       .httpBasic(Customizer.withDefaults())
+                .formLogin(login -> login
+                        .loginPage("/login")//страница ввода логина и пароля
+                        .defaultSuccessUrl("/users/new")//адрес,на который переходим после успешного ввода пароля логина
+////                        .loginProcessingUrl("/auth")
+//////                      //.failureUrl("/login-error")
+                        .permitAll())// разрешаем тем, кто залогинился зайти дальше
 //                .logout(logout -> logout
-//                        .logoutUrl("/logout")
-//                        .logoutSuccessUrl("/")
+////                      .logoutUrl("/logout")
+//                        .logoutSuccessUrl("/login")//страница, на которую попадаем после logout
 //                        .deleteCookies("JSESSIONID"))
-;
+        ;
         return http.build();
     }
 }

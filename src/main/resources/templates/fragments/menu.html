@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-
 <table id="nav-menu" width="100%">
     <tr>
         <td align="center">
@@ -27,7 +26,8 @@
                     <a th:href="@{/logout}">Logout</a>
                 </div>
             </div>
-            <div sec:authrize="!isAuthenticated()">
+
+            <div sec:authorize="!isAuthenticated()">
                 <div>
                     Hello, Unknown. Please <a th:href="@{/login}">Login</a>
                 </div>

@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SpringEshopApplication {
 
     public static void main(String[] args) {
-//        SpringApplication.run(SpringEshopApplication.class, args);
+//       SpringApplication.run(SpringEshopApplication.class, args);
         ConfigurableApplicationContext context = SpringApplication.run(SpringEshopApplication.class, args);
         PasswordEncoder encoder = context.getBean(PasswordEncoder.class);
         System.out.println(encoder.encode("pass"));

@@ -29,7 +29,8 @@ public class UserController {
     public String userList(Model model) {
 //        if(1==1){
 //            throw new RuntimeException("test of error handling");
-//        } проверка на работу при ошибке на странице userList
+//        } // проверка на работу при ошибке на странице userList
+
         model.addAttribute("users", userService.getAll());
         return "userList";
     }

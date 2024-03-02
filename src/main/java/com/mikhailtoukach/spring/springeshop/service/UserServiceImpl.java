@@ -4,6 +4,7 @@ import com.mikhailtoukach.spring.springeshop.dao.UserRepository;
 import com.mikhailtoukach.spring.springeshop.domain.Role;
 import com.mikhailtoukach.spring.springeshop.domain.User;
 import com.mikhailtoukach.spring.springeshop.dto.UserDTO;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean save(UserDTO userDTO) {
+    public boolean save(@NotNull UserDTO userDTO) {
         if (!Objects.equals(userDTO.getPassword(), userDTO.getMatchingPassword())) {
             throw new RuntimeException("Password is not equals");
         }
@@ -75,7 +76,7 @@ public class UserServiceImpl implements UserService {
 //        .orElseThrow(()-> new UsernameNotFoundException("Failed to retrive use:" + username));
     }
 
-    private UserDTO toDto(User user) {
+    private UserDTO toDto(@NotNull User user) {
         return UserDTO.builder()
                 .username(user.getName())
                 .email(user.getEmail())

@@ -60,7 +60,7 @@ public class SecurityConfig {
                         .anyRequest()
                         .authenticated())
 
-                .httpBasic(Customizer.withDefaults())
+               .httpBasic(Customizer.withDefaults())
 
                 //  не работает, с default все работает
 //                .formLogin(login -> login

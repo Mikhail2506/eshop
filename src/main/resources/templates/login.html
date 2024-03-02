@@ -1,29 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login Page</title>
 </head>
 <body>
-<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<!--<div th:insert="~{fragments/menu :: #nav-menu}"></div>-->
 <!--<p th:if="${loginError}" class="error">Wrong username or password</p>-->
-<div style="color:red" th:if="${param.error}">
-    Invalid username or password
-</div>
 <!--<form th:action="@{/users/new}" method="post">-->
-<!--    <form th:action="@{/auth}" method="post">-->
-<!--        <table border="1">-->
-<!--            <tr>-->
-<!--                <td>Name</td>-->
-<!--                <td><input type="text" name="username"/></td>-->
-<!--            </tr>-->
-<!--            <tr>-->
-<!--                <td>Password</td>-->
-<!--                <td><input type="password" name="password/"></td>-->
-<!--            </tr>-->
-<!--        </table>-->
-<!--        <button type="submit">Log in</button>-->
+<!--    <table border="1">-->
+<!--        <tr>-->
+<!--            <td>Name</td>-->
+<!--            <td><label>-->
+<!--                <input type="text" name="username"/>-->
+<!--            </label></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Password</td>-->
+<!--            <td><label>-->
+<!--                <input type="password" name="password/">-->
+<!--            </label></td>-->
+<!--        </tr>-->
+<!--    </table>-->
+<!--    <button type="submit">Log in</button>-->
+<!--</form>-->
 
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<p th:if="${loginError}" class="error">Wrong username or password</p>
+<!--<div style="color:red" th:if="${param.error}">-->
+<!--    Invalid username or password-->
+<!--</div>-->
 <form action="/login" method="post">
     <label for="username"> Username:
         <input id="username" type="text" name="username">

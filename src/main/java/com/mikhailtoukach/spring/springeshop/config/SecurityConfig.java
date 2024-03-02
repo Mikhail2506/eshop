@@ -51,37 +51,27 @@ public class SecurityConfig {
 
         http.csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-//
-////                        .requestMatchers("/login").permitAll()
-////                        .requestMatchers("/index").permitAll()
-////                        .requestMatchers("/userList").hasAnyRole("ADMIN", "MANAGER")
-////                        .requestMatchers("/users/new")
-////                        .permitAll()
-//
-                        //                   .requestMatchers("/users/new").hasAuthority(ADMIN.name())
-////
-////                        .requestMatchers("/", "/login", "v3/api-docs/", "/swagger-ui/")
-////                        .permitAll()
-//
-////                        .requestMatchers("/admin/**").hasRole(ADMIN.getAuthority())
-                        //                   .requestMatchers("/users/new").hasAuthority(Role.ADMIN.getAuthority())
-                        //               .requestMatchers(antMatcher("/user/{//d}/delete")).hasAnyAuthority(ADMIN.getAuthority(), MANAGER.getAuthority())
-//
+                        .requestMatchers("/users")
+                        .permitAll()
+                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/index").permitAll()
+                        .requestMatchers("/users/new")
+                        .hasAuthority(Role.ADMIN.getAuthority())
                         .anyRequest()
-                        .permitAll())
-                       // .authenticated())
+                        .authenticated())
 
-//                       .httpBasic(Customizer.withDefaults())
-                .formLogin(login -> login
-                        .loginPage("/login")//страница ввода логина и пароля
-                        .defaultSuccessUrl("/users/new")//адрес,на который переходим после успешного ввода пароля логина
-////                        .loginProcessingUrl("/auth")
-//////                      //.failureUrl("/login-error")
-                        .permitAll())// разрешаем тем, кто залогинился зайти дальше
-//                .logout(logout -> logout
-////                      .logoutUrl("/logout")
-//                        .logoutSuccessUrl("/login")//страница, на которую попадаем после logout
-//                        .deleteCookies("JSESSIONID"))
+                .httpBasic(Customizer.withDefaults())
+
+                //  не работает, с default все работает
+//                .formLogin(login -> login
+//                        .loginPage("/login")//страница ввода логина и пароля
+//                        .defaultSuccessUrl("/users/new")//адрес,на который переходим после успешного ввода пароля логина
+//                        .failureUrl("/login-error")
+//                        .permitAll())// разрешаем тем, кто залогинился зайти дальше
+                .logout(logout -> logout
+                      .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login")//страница, на которую попадаем после logout
+                        .deleteCookies("JSESSIONID"))
         ;
         return http.build();
     }

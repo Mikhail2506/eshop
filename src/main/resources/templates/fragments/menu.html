@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -18,20 +18,19 @@
             </table>
         </td>
         <td align="right">
-            <div sec:authorize="isAuthenticated()">
-                <div>
-                    Hello, <span sec:authentication="principal.username">Bill</span>
-                </div>
-                <div>
-                    <a th:href="@{/logout}">Logout</a>
-                </div>
+        <div sec:authorize="isAuthenticated()">
+            <div>
+                Hello, <span sec:authentication="principal.username">Bill</span>
             </div>
-
-            <div sec:authorize="!isAuthenticated()">
-                <div>
-                    Hello, Unknown. Please <a th:href="@{/login}">Login</a>
-                </div>
+            <div>
+                <a th:href="@{/logout}">Logout</a>
             </div>
+        </div>
+        <div sec:authorize="!isAuthenticated()">
+            <div>
+                Hello, Unknown, please <a th:href="@{/login}">login</a>
+            </div>
+        </div>
         </td>
     </tr>
 </table>

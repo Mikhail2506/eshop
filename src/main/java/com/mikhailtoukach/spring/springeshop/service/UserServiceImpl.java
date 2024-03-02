@@ -50,7 +50,6 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -61,6 +60,7 @@ public class UserServiceImpl implements UserService {
         }
         List<GrantedAuthority> roles = new ArrayList<>();
         roles.add(new SimpleGrantedAuthority(user.getRole().name()));
+        System.out.println(" ----------------------------");
         return new org.springframework.security.core.userdetails.User(
                 user.getName(),
                 user.getPassword(),

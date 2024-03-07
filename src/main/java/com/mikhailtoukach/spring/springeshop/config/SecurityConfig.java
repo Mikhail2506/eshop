@@ -2,7 +2,6 @@ package com.mikhailtoukach.spring.springeshop.config;
 
 import com.mikhailtoukach.spring.springeshop.domain.Role;
 import com.mikhailtoukach.spring.springeshop.service.UserService;
-import jakarta.annotation.PostConstruct;
 import jakarta.persistence.Basic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

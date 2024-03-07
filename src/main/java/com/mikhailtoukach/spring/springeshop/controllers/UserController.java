@@ -25,7 +25,6 @@ public class UserController {
     }
 
     @GetMapping
-//    public String userList(@NotNull Model model) {
     public String userList(Model model) {
 //        if(1==1){
 //            throw new RuntimeException("test of error handling");

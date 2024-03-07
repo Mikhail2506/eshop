@@ -2,14 +2,15 @@ package com.mikhailtoukach.spring.springeshop.config;
 
 import com.mikhailtoukach.spring.springeshop.domain.Role;
 import com.mikhailtoukach.spring.springeshop.service.UserService;
+import jakarta.annotation.PostConstruct;
 import jakarta.persistence.Basic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
@@ -19,6 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(securedEnabled=true)
 public class SecurityConfig {
 
     private UserService userService;
@@ -60,17 +62,18 @@ public class SecurityConfig {
                         .anyRequest()
                         .authenticated())
 
-               .httpBasic(Customizer.withDefaults())
+                //.httpBasic(Customizer.withDefaults())
 
-                //  не работает, с default все работает
-//                .formLogin(login -> login
-//                        .loginPage("/login")//страница ввода логина и пароля
-//                        .defaultSuccessUrl("/users/new")//адрес,на который переходим после успешного ввода пароля логина
-//                        .failureUrl("/login-error")
-//                        .permitAll())// разрешаем тем, кто залогинился зайти дальше
+                  //не работает, с default все работает
+                .formLogin(login -> login
+                        .loginPage("/login")//страница ввода логина и пароля
+                        .defaultSuccessUrl("/users/new")//адрес,на который переходим после успешного ввода пароля логина
+                        .failureUrl("/login-error")
+                        .permitAll())// разрешаем тем, кто залогинился зайти дальше
                 .logout(logout -> logout
-                      .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")//страница, на которую попадаем после logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")//страница, на которую попадаем после logout
+                        //.logoutSuccessUrl("/users")
                         .deleteCookies("JSESSIONID"))
         ;
         return http.build();

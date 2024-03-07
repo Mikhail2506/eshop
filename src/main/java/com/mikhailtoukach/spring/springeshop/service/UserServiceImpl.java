@@ -4,7 +4,6 @@ import com.mikhailtoukach.spring.springeshop.dao.UserRepository;
 import com.mikhailtoukach.spring.springeshop.domain.Role;
 import com.mikhailtoukach.spring.springeshop.domain.User;
 import com.mikhailtoukach.spring.springeshop.dto.UserDTO;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,17 +18,29 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+//    private final UserRepository userRepository;
+//    private final PasswordEncoder passwordEncoder;
+//
+//    @Autowired
+//    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+//        this.userRepository = userRepository;
+//        this.passwordEncoder = passwordEncoder;
+//    }
+
+    private  UserRepository userRepository;
+    private  PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public boolean save(@NotNull UserDTO userDTO) {
+    public boolean save(UserDTO userDTO) {
         if (!Objects.equals(userDTO.getPassword(), userDTO.getMatchingPassword())) {
             throw new RuntimeException("Password is not equals");
         }
@@ -61,7 +72,7 @@ public class UserServiceImpl implements UserService {
         }
         List<GrantedAuthority> roles = new ArrayList<>();
         roles.add(new SimpleGrantedAuthority(user.getRole().name()));
-        System.out.println(" ----------------------------");
+        System.out.println(user.getPassword() + "________" + user.getName());
         return new org.springframework.security.core.userdetails.User(
                 user.getName(),
                 user.getPassword(),
@@ -73,10 +84,10 @@ public class UserServiceImpl implements UserService {
 //                        user.getPassword(),
 //                        Collections.singleton(user.getRole())
 //                ))
-//        .orElseThrow(()-> new UsernameNotFoundException("Failed to retrive use:" + username));
+//        .orElseThrow(()-> new UsernameNotFoundException("Failed to retrive user:" + username));
     }
 
-    private UserDTO toDto(@NotNull User user) {
+    private UserDTO toDto(User user) {
         return UserDTO.builder()
                 .username(user.getName())
                 .email(user.getEmail())

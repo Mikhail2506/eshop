@@ -53,7 +53,8 @@ public class SecurityConfig {
         http.csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/users")
-                        .permitAll()
+                        .hasAnyAuthority(Role.ADMIN.getAuthority(),Role.MANAGER.getAuthority())
+                        //.permitAll()
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/index").permitAll()
                         .requestMatchers("/users/new")

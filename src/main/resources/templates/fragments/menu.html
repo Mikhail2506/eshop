@@ -27,8 +27,7 @@
                     <a th:href="@{/logout}">Logout</a>
                 </div>
             </div>
-<!--            <div sec:authorize="!isAuthenticated()">-->
-            <div sec:authorize="!isAuthenticated">
+            <div sec:authorize="!isAuthenticated()">
                 <div>
                     Hello, Unknown, please <a th:href="@{/login}">login</a>
                 </div>

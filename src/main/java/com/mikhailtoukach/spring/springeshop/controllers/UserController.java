@@ -1,5 +1,6 @@
 package com.mikhailtoukach.spring.springeshop.controllers;
 
+import com.mikhailtoukach.spring.springeshop.domain.User;
 import com.mikhailtoukach.spring.springeshop.dto.UserDTO;
 import com.mikhailtoukach.spring.springeshop.service.UserService;
 import org.jetbrains.annotations.NotNull;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
+import java.util.Objects;
+
 @Controller
 @RequestMapping("/users")
 public class UserController {
@@ -25,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping
-   public String userList(Model model) {
+    public String userList(Model model) {
 //        if(1==1){
 //            throw new RuntimeException("test of error handling");
 //        } // проверка на работу при ошибке на странице userList
@@ -48,5 +52,35 @@ public class UserController {
             model.addAttribute("user", userDTO);
             return "user";
         }
+    }
+
+    @GetMapping("/profile")
+    public String profileUser(Model model, Principal principal) {
+        if (principal == null) {
+            throw new RuntimeException("You are not authorized");
+        }
+        User user = userService.findByName(principal.getName());
+
+        UserDTO dto = UserDTO.builder()
+                .username(user.getName())
+                .email(user.getEmail())
+                .build();
+        model.addAttribute("user", dto);
+        return "profile";
+    }
+
+    @PostMapping("/profile")
+    public String updateFilterUser(UserDTO dto, Model model, Principal principal) {
+        if(principal == null || !Objects.equals(principal.getName(), dto.getUsername())){
+            throw new RuntimeException("You are not authorized");
+        }
+        if(dto.getPassword() != null
+                && !dto.getPassword().isEmpty()
+                && !Objects.equals(dto.getPassword(), dto.getMatchingPassword())){
+            model.addAttribute("user", dto);
+            return "profile";
+        }
+userService.updateProfile(dto);
+        return "redirect:/users/profile";
     }
 }

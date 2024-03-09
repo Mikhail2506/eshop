@@ -18,22 +18,14 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
-//    private final UserRepository userRepository;
-//    private final PasswordEncoder passwordEncoder;
-//
-//    @Autowired
-//    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-//        this.userRepository = userRepository;
-//        this.passwordEncoder = passwordEncoder;
-//    }
-
-    private  UserRepository userRepository;
-    private  PasswordEncoder passwordEncoder;
+    private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     @Autowired
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
@@ -63,6 +55,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByName(String name) {
+        return userRepository.findFirstByName(name);
+    }
+
+    @Override
+    public void updateProfile(UserDTO dto) {
+        User savedUser = userRepository.findFirstByName(dto.getUsername());
+        if (savedUser == null) {
+            throw new RuntimeException("User " + dto.getUsername() + " not found!");
+        }
+
+        boolean isChanged = false;
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()){
+            savedUser.setPassword(passwordEncoder.encode(dto.getPassword()));
+            isChanged=true;
+        }
+        if(!Objects.equals(dto.getEmail(), savedUser.getEmail())){
+            savedUser.setEmail(dto.getEmail());
+            isChanged = true;
+        }
+        if(isChanged){
+            userRepository.save(savedUser);
+        }
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         User user = userRepository.findFirstByName(username);
@@ -77,14 +95,6 @@ public class UserServiceImpl implements UserService {
                 user.getName(),
                 user.getPassword(),
                 roles);
-
-//        return userRepository.findFirstByName(username)
-//                .map(user -> new org.springframework.security.core.userdetails.User(
-//                        user.getName(),
-//                        user.getPassword(),
-//                        Collections.singleton(user.getRole())
-//                ))
-//        .orElseThrow(()-> new UsernameNotFoundException("Failed to retrive user:" + username));
     }
 
     private UserDTO toDto(User user) {

@@ -20,9 +20,9 @@ public class BucketDetailDTO {
     private Double sum;
 
     public BucketDetailDTO (Product product){
-        this.title=title;
-        this.productId=productId;
-        this.price=price;
+        this.title=product.getTitle();
+        this.productId=product.getId();
+        this.price=product.getPrice();
         this.amount=new BigDecimal(1.0);
         this.sum=Double.valueOf(product.getPrice().toString());
     }

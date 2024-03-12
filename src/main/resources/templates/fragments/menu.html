@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Title</title>
 </head>
 <body>
@@ -15,6 +15,7 @@
                     <td><a th:href="@{/}">Home</a></td>
                     <td><a th:href="@{/products}">Products</a></td>
                     <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"><a th:href="@{/users}">Users</a></td>
+                    <td sec:authorize="isAuthenticated()"><a th:href="@{/bucket}">Bucket</a></td>
                 </tr>
             </table>
         </td>

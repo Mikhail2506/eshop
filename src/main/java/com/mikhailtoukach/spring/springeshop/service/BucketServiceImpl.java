@@ -23,7 +23,9 @@ public class BucketServiceImpl implements BucketService {
     private final ProductRepository productRepository;
     private final UserService userService;
 
-    public BucketServiceImpl(BucketRepository bucketRepository, ProductRepository productRepository, UserService userService) {
+    public BucketServiceImpl(BucketRepository bucketRepository,
+                             ProductRepository productRepository,
+                             UserService userService) {
         this.bucketRepository = bucketRepository;
         this.productRepository = productRepository;
         this.userService = userService;
@@ -41,6 +43,7 @@ public class BucketServiceImpl implements BucketService {
 
     private List<Product> getCollectRefProductsByIds(List<Long> productsIds) {
         return productsIds.stream()
+                //getOne вытаскивает ссылку на объект, findById - сам объект
                 .map(productRepository::getOne)
                 .collect(Collectors.toList());
     }
@@ -55,28 +58,28 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public BucketDTO getBucketByUser(String name){
-      User user = userService.findByName(name);
-      if(user==null || user.getBucket()==null){
-          return new BucketDTO();
-      }
+    public BucketDTO getBucketByUser(String name) {
+        User user = userService.findByName(name);
+        if (user == null || user.getBucket() == null) {
+            return new BucketDTO();
+        }
 
-      BucketDTO bucketDTO = new BucketDTO();
-      Map<Long, BucketDetailDTO> mapByProductId = new HashMap<>();
+        BucketDTO bucketDTO = new BucketDTO();
+        Map<Long, BucketDetailDTO> mapByProductId = new HashMap<>();
 
-      List<Product> products = user.getBucket().getProducts();
-      for(Product product : products){
-          BucketDetailDTO detail = mapByProductId.get(product.getId());
-          if(detail == null){
-              mapByProductId.put(product.getId(). new BucketDetailDTO(product));
-          }else{
-              detail.setAmount(detail.getAmount().add(new BigDecimal(1.0)));
-              detail.setSum(detail.getSum()+Double.valueOf(product.getPrice().toString()));
-          }
-      }
-      bucketDTO.setBucketDetails(new ArrayList<>(mapByProductId.values()));
-      bucketDTO.aggregate();
-      return bucketDTO;
+        List<Product> products = user.getBucket().getProducts();
+        for (Product product : products) {
+            BucketDetailDTO detail = mapByProductId.get(product.getId());
+            if (detail == null) {
+                mapByProductId.put(product.getId(), new BucketDetailDTO(product));
+            } else {
+                detail.setAmount(detail.getAmount().add(new BigDecimal(1.0)));
+                detail.setSum(detail.getSum() + Double.valueOf(product.getPrice().toString()));
+            }
+        }
+        bucketDTO.setBucketDetails(new ArrayList<>(mapByProductId.values()));
+        bucketDTO.aggregate();
+        return bucketDTO;
     }
 }
 

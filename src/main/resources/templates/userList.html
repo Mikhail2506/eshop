@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>User list</title>
 </head>
 <body>
@@ -12,8 +12,8 @@
         <td>Email</td>
     </tr>
     <tr th:each="user : ${users}">
-        <td th:text="${user.getUsername}">Testname"</td>
-        <td th:text="${user.email}">Testmail"</td>
+        <td th:text="${user.getUsername}">Testname</td>
+        <td th:text="${user.email}">Testmail</td>
     </tr>
 </table>
 <a th:href="@{/users/new}">Add new User</a>

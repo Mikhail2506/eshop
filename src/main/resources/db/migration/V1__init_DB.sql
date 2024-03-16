@@ -185,7 +185,7 @@ create table products_categories
 create table users
 (
     archive   boolean not null,
-    bucket_id bigint unique,
+--     bucket_id bigint unique,
     id        bigint  not null,
     email     varchar(255),
     name      varchar(255),
@@ -230,6 +230,6 @@ alter table if exists products_categories
     add constraint products_categories_fk_products
     foreign key (product_id) references products;
 
-alter table if exists users
-    add constraint users_fk_buckets
-    foreign key (bucket_id) references buckets;
+-- alter table if exists users
+--     add constraint users_fk_buckets
+--     foreign key (bucket_id) references buckets;

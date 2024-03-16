@@ -28,10 +28,6 @@ public class ProductServiceImpl implements ProductService {
         this.bucketService = bucketService;
     }
 
-
-    //    public ProductServiceImpl(ProductRepository productRepository){
-//        this.productRepository = productRepository;
-//    }
     @Override
     public List<ProductDTO> getAll() {
         return mapper.fromProductList(productRepository.findAll());

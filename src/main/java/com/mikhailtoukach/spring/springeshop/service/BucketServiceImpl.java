@@ -80,6 +80,7 @@ public class BucketServiceImpl implements BucketService {
         }
         bucketDTO.setBucketDetails(new ArrayList<>(mapByProductId.values()));
         bucketDTO.aggregate();
+        System.out.println("________________________________________");
         return bucketDTO;
     }
 }

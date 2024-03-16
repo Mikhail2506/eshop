@@ -24,6 +24,7 @@ public class BucketController {
             model.addAttribute("bucket", new BucketDTO());
         } else {
             BucketDTO bucketDTO = bucketService.getBucketByUser(principal.getName());
+            model.addAttribute("bucket", bucketDTO);
         }
         return "bucket";
 

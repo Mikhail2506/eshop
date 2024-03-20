@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(securedEnabled=true)
+@EnableMethodSecurity(securedEnabled=true, prePostEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 
     private UserService userService;
@@ -57,8 +57,10 @@ public class SecurityConfig {
                         //.permitAll()
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/index").permitAll()
-                        .requestMatchers("/users/new")
-                        .hasAuthority(Role.ADMIN.getAuthority())
+//                        .requestMatchers("/users/new")
+//                        .hasAuthority(Role.ADMIN.getAuthority())
+//                        добавили в @EnableMethodSecurity(... prePostEnabled = true, jsr250Enabled = true) доступ делаем
+//                        @PreAuthorize в UserController class
                         .anyRequest()
                         .authenticated())
 
